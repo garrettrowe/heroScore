@@ -43,7 +43,7 @@ def parse_request():
 		Depthv = float(request.args.get('Depthv'))
 		Funv = float(request.args.get('Funv'))
 		Fights = float(request.args.get('Fights'))
-		DEv = int(request.args.get('DE'))
+		DEv = int(request.args.get('DEv'))
 	
 		inpredict = [hero,Efficiencyv,Mitigationv,Supportv,Ultimatev,Scalingv,Productionv,Depthv,Funv,DEv,Fights]
 		
