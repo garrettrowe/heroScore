@@ -32,7 +32,20 @@ def parse_request():
 	try:
 		global mpredict
 		mpredict = []
-		inpredict = [54,6.3,7.38,4.44,0.45,.05,3.15,0.45,3.33,17.4,35]
+		hero = int(request.args.get('Hero'))
+		Efficiencyv = float(request.args.get('Efficiencyv'))
+		Mitigationv = float(request.args.get('Mitigationv'))
+		Supportv = float(request.args.get('Supportv'))
+		Ultimatev = float(request.args.get('Ultimatev'))
+		Scalingv = float(request.args.get('Scalingv'))
+		Productionv = float(request.args.get('Productionv'))
+		Depthv = float(request.args.get('Depthv'))
+		Funv = float(request.args.get('Funv'))
+		Fights = float(request.args.get('Fights'))
+		DE = int(request.args.get('DE'))
+	
+		inpredict = [hero,Efficiencyv,Mitigationv,Supportv,Ultimatev,Scalingv,Productionv,Depthv,Funv,DE,Fights]
+		
 		inpredict = numpy.array(inpredict).reshape(1, (len(inpredict)))
 		mscore = regr.predict(inpredict)[0][0]
 		mpredict.append({'Score' : mscore})
