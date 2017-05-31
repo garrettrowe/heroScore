@@ -16,7 +16,7 @@ CORS(app)
 
 conn = swiftclient.Connection(key="""ApX1Y]C*#tvNn95j""",authurl='https://identity.open.softlayer.com/v3',auth_version='3',
 os_options={"project_id": 'c103edd6ab074e8f967770017c08c779',"user_id": '70b92ab4ed014fe0b3564f31a53b6522',"region_name": 'dallas'})
-obj_tuple = conn.get_object("Analytics", 'super_hero_model_yh.gz')
+obj_tuple = conn.get_object("Analytics", 'super_hero_model_regr.gz')
 
 with open('super_hero_model_regr.gz', 'w') as dl_model:
     dl_model.write(obj_tuple[1])
