@@ -9,7 +9,6 @@ from sklearn.externals import joblib
 import requests
 import dateutil.parser
 
-
 from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTIONS'] = True
