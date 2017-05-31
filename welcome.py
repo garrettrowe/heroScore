@@ -1,5 +1,6 @@
 import os
 import sys
+import traceback
 import numpy
 import threading
 from flask import Flask, jsonify, request, json
@@ -51,7 +52,8 @@ def parse_request():
 		mpredict.append({'Score' : mscore})
 		return jsonify(results=mpredict)
 	except:
-		return "failed"
+		exc_type, exc_value, exc_traceback = sys.exc_info()
+    		return traceback.print_exception(exc_type, exc_value, exc_traceback)
 
 port = os.getenv('PORT', '5000')
 if __name__ == "__main__":
