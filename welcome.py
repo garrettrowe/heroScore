@@ -42,16 +42,16 @@ def parse_request():
 		Depthv = float(request.args.get('Depthv'))
 		Funv = float(request.args.get('Funv'))
 		Fights = float(request.args.get('Fights'))
-		DE = int(request.args.get('DE'))
+		DEv = int(request.args.get('DE'))
 	
-		inpredict = [hero,Efficiencyv,Mitigationv,Supportv,Ultimatev,Scalingv,Productionv,Depthv,Funv,DE,Fights]
+		inpredict = [hero,Efficiencyv,Mitigationv,Supportv,Ultimatev,Scalingv,Productionv,Depthv,Funv,DEv,Fights]
 		
 		inpredict = numpy.array(inpredict).reshape(1, (len(inpredict)))
 		mscore = regr.predict(inpredict)[0][0]
 		mpredict.append({'Score' : mscore})
 		return jsonify(results=mpredict)
 	except:
-		return jsonify(ecode=sys.exc_info()[0])
+		return "failed"
 
 port = os.getenv('PORT', '5000')
 if __name__ == "__main__":
