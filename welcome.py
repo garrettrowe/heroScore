@@ -30,6 +30,17 @@ def notice():
 
 @app.route('/score', methods=['GET', 'POST'])
 def parse_request():
+	hero = 0
+	Efficiencyv = 0
+	Mitigationv = 0
+	Supportv = 0
+	Ultimatev = 0
+	Scalingv = 0
+	Productionv = 0
+	Depthv = 0
+	Funv = 0
+	DEv = 0	     
+	Fights = 0
 	try:
 		global mpredict
 		mpredict = []
@@ -42,18 +53,16 @@ def parse_request():
 		Productionv = float(request.args.get('Productionv'))
 		Depthv = float(request.args.get('Depthv'))
 		Funv = float(request.args.get('Funv'))
-		Fights = float(request.args.get('Fights'))
-		DEv = int(request.args.get('DEv'))
+		DEv = float(request.args.get('DEv'))
+		Fights = int(request.args.get('Fights'))
 	
-		inpredict = [hero,Efficiencyv,Mitigationv,Supportv,Ultimatev,Scalingv,Productionv,Depthv,Funv,DEv,Fights]
-		
-		inpredict = numpy.array(inpredict).reshape(1, (len(inpredict)))
-		mscore = regr.predict(inpredict)[0][0]
-		mpredict.append({'Score' : mscore})
-		return jsonify(results=mpredict)
 	except:
-		exc_type, exc_value, exc_traceback = sys.exc_info()
-    		return traceback.print_exception(exc_type, exc_value, exc_traceback)
+		"Fail"
+	inpredict = [hero,Efficiencyv,Mitigationv,Supportv,Ultimatev,Scalingv,Productionv,Depthv,Funv,DEv,Fights]
+	inpredict = numpy.array(inpredict).reshape(1, (len(inpredict)))
+	mscore = regr.predict(inpredict)[0][0]
+	mpredict.append({'Score' : mscore})
+	return jsonify(results=mpredict)
 
 port = os.getenv('PORT', '5000')
 if __name__ == "__main__":
