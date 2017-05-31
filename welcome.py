@@ -4,7 +4,7 @@ import numpy
 import threading
 from flask import Flask, jsonify, request, json
 import swiftclient
-from sklearn.ensemble import RandomForestClassifier
+from sklearn import linear_model
 from sklearn.externals import joblib
 import requests
 import dateutil.parser
@@ -17,38 +17,26 @@ CORS(app)
 
 conn = swiftclient.Connection(key="""ApX1Y]C*#tvNn95j""",authurl='https://identity.open.softlayer.com/v3',auth_version='3',
 os_options={"project_id": 'c103edd6ab074e8f967770017c08c779',"user_id": '70b92ab4ed014fe0b3564f31a53b6522',"region_name": 'dallas'})
-obj_tuple = conn.get_object("Analytics", 'movie_c.gz')
+obj_tuple = conn.get_object("Analytics", 'super_hero_model_yh.gz')
 
-with open('movie_c.gz', 'w') as dl_model:
+with open('super_hero_model_regr.gz', 'w') as dl_model:
     dl_model.write(obj_tuple[1])
 
-movie = joblib.load('movie_c.gz')
-
-obj_tuple = conn.get_object("Analytics", 'movie_d.gz')
-
-with open('movie_d.gz', 'w') as dl_model:
-    dl_model.write(obj_tuple[1])
-
-d = joblib.load('movie_d.gz')
-
-
+regr = joblib.load('super_hero_model_regr.gz')
 
 @app.route('/')
 def notice():
 	return "This is a webapp"
 
-@app.route('/predict', methods=['GET', 'POST'])
+@app.route('/score', methods=['GET', 'POST'])
 def parse_request():
 	try:
 		global mpredict
 		mpredict = []
-
-		inpredict = [int(d["GENDER"].transform([request.args.get('GENDER')])[0]),int(request.args.get('SENIORCITIZEN')),int(request.args.get('DEPENDENTS')),int(request.args.get('TENURE')),int(request.args.get('PAPERLESSBILLING')),int(d["PAYMENTMETHOD"].transform([request.args.get('PAYMENTMETHOD')])[0]),request.args.get('MONTHLYCHARGES')]
-		inpredict = numpy.array(inpredict).reshape(1, (len(inpredict)))	
-		
-		mtitle = d["title"].inverse_transform(int(movie.predict(inpredict)[0])).encode('ascii')
-		
-		mpredict.append({'Movie' : mtitle})
+		inpredict = [54,6.3,7.38,4.44,0.45,.05,3.15,0.45,3.33,17.4,35]
+		inpredict = numpy.array(inpredict).reshape(1, (len(inpredict)))
+		mscore = regr.predict(inpredict)[0][0]
+		mpredict.append({'Score' : mscore})
 		return jsonify(results=mpredict)
 	except:
 		return jsonify(ecode=sys.exc_info()[0])
